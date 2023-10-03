@@ -1,0 +1,80 @@
+﻿@page "/call-web-api"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject IHttpClientFactory ClientFactory
+
+<h1>Call web API from a Blazor Server Razor component</h1>
+
+@if (getBranchesError || items is null)
+{
+    <p>Unable to get branches from GitHub. Please try again later.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.ID</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
+    private bool getBranchesError;
+    private bool shouldRender;
+
+    protected override bool ShouldRender() => shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            items = await JsonSerializer.DeserializeAsync
+                <IEnumerable<ItemShop>>(responseStream);
+        }
+        else
+        {
+            getBranchesError = true;
+        }
+
+        shouldRender = true;
+    }
+
+    public class ItemShop
+    {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+        [JsonPropertyName("_id")]
+        public string? ID { get; set; }
+        [JsonPropertyName("price")]
+        public string? Price { get; set; }
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+
+    }
+// https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==
+}

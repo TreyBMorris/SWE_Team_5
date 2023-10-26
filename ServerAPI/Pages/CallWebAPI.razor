@@ -1,6 +1,9 @@
 ﻿@page "/call-web-api"
 @using System.Text.Json
 @using System.Text.Json.Serialization
+@using CsvHelper;
+@using System.IO;
+@using System.Globalization;
 @inject IHttpClientFactory ClientFactory
 
 <h1>Call web API from a Blazor Server Razor component</h1>
@@ -33,11 +36,15 @@ else
         </tbody>
     </table>
 }
+<h3 role="status">Status: @downloadStatus</h3>
+<br />
+<button class="btn btn-primary" @onclick="GetCSV">Save CSV File</button>
 
 @code {
     private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
     private bool getBranchesError;
     private bool shouldRender;
+    private string downloadStatus = "Download Not Started";
 
     protected override bool ShouldRender() => shouldRender;
 
@@ -75,6 +82,20 @@ else
         [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
 
+
+        
+    }
+    public void GetCSV()
+    {
+        var csvPath = Path.Combine(Environment.CurrentDirectory, $"database-call-{DateTime.Now.ToFileTime()}.csv");
+        using (var streamWriter = new StreamWriter(csvPath))
+        {
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+            {
+                csvWriter.WriteRecords(items);
+                downloadStatus = "Finished Downloading to Current Directory";
+            }
+        }
     }
 // https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==
 }

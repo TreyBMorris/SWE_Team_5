@@ -38,16 +38,18 @@ else
         </tbody>
     </table>
 }
-
-<p role="status">Current status: @downloadStatus</p>
 <button class="btn btn-primary" @onclick="GetCSV">Generate CSV</button>
-<button class="btn btn-primary" @onclick="DownloadFileFromURL">Download CSV</button>
+@if(canDownload)
+{
+    <br />
+    <br />
+    <button class="btn btn-primary" @onclick="DownloadFileFromURL">Download CSV</button>
+}
 
 @code {
     private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
     private bool getBranchesError;
     private bool shouldRender;
-    private string downloadStatus = "Download Not Started";
     private bool canDownload = false;
     protected override bool ShouldRender() => shouldRender;
 
@@ -89,13 +91,11 @@ else
 
     private async Task DownloadFileFromURL()
     {
-        if(canDownload)
-        {
-            var fileName = "exported_Data.csv";
-            var fileURL = "exported_Data.csv";
-            await JSRuntime.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
-        }
+        var fileName = "exported_Data.csv";
+        var fileURL = "exported_Data.csv";
+        await JSRuntime.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
     }
+
     public void GetCSV()
     {
         var csvPath = Path.Combine(Environment.CurrentDirectory, $"exported_Data.csv");
@@ -104,12 +104,8 @@ else
             using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
             {
                 csvWriter.WriteRecords(items);
-                downloadStatus = "File Ready for Download";
                 canDownload = true;
             }
         }
-    }
-
-    
-  
+    }  
 }

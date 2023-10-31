@@ -43,7 +43,7 @@ else
 {
     <br />
     <br />
-    <button class="btn btn-primary" @onclick="DownloadFileFromURL">Download CSV</button>
+    <button class="btn btn-primary" @onclick="DownloadFile">Download CSV</button>
 }
 
 @code {
@@ -88,8 +88,7 @@ else
         public int Quantity { get; set; }
     }
 
-
-    private async Task DownloadFileFromURL()
+    private async Task DownloadFile()
     {
         var fileName = "exported_Data.csv";
         var fileURL = "https://localhost:7087/exported_Data.csv";

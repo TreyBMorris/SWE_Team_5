@@ -92,13 +92,13 @@ else
     private async Task DownloadFileFromURL()
     {
         var fileName = "exported_Data.csv";
-        var fileURL = "exported_Data.csv";
+        var fileURL = "https://localhost:7087/exported_Data.csv";
         await JSRuntime.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
     }
 
     public void GetCSV()
     {
-        var csvPath = Path.Combine(Environment.CurrentDirectory, $"exported_Data.csv");
+        var csvPath = Path.Combine("wwwroot", $"exported_Data.csv");
         using (var streamWriter = new StreamWriter(csvPath))
         {
             using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
@@ -107,5 +107,5 @@ else
                 canDownload = true;
             }
         }
-    }  
+    }
 }

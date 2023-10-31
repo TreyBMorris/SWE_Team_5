@@ -4,8 +4,7 @@ This is a Blazor Server .NET7 project where I am implementing different features
 
 ### Current features
 - Blazor Server to reads from an Azure Serverless API using CosmosDB to return information from the API to the Table. 
-- Can Generate CSV File
+- Can Generate and Download CSV File to local
 ### Work in progress features
-- Download CSV file to local
 - Authentication and Authorization
 

@@ -57,6 +57,7 @@
 			registerUser.password = password;
 			registerUser.email = email;
 			PostToDatbase();
+			Status = "Registration is successful";
 		}
 
 		else
@@ -79,6 +80,5 @@
 		request.Content = content;
 
 		var response = await client.SendAsync(request);
-		Console.WriteLine(response);
 	}
 }

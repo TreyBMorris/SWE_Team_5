@@ -19,20 +19,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
                 <th>ID</th>
-                <th>Price</th>
-                <th>Quantity</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in items)
             {
                 <tr>
-                    <td>@item.Name</td>
                     <td>@item.ID</td>
-                    <td>@item.Price</td>
-                    <td>@item.Quantity</td>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.Password</td>
                 </tr>
             }
         </tbody>
@@ -55,8 +55,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            "https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
+        var request = new HttpRequestMessage(HttpMethod.Get,"https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
 
         var client = ClientFactory.CreateClient();
 
@@ -86,6 +85,10 @@ else
         public string? Price { get; set; }
         [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
+        [JsonPropertyName("email")]
+        public string? Email { get; set; }
+        [JsonPropertyName("password")]
+        public string? Password { get; set; }
     }
 
     private async Task DownloadFile()

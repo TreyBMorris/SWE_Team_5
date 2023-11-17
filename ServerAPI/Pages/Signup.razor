@@ -2,31 +2,38 @@
 @page "/register"
 @using MudBlazor
 @using ServerAPI.Data;
+@using System.Text.Json.Serialization
+@using System.Net.Http;
+@using System.Text;
+@using System.Text.Json;
 @inject NavigationManager NavManager
+@inject HttpClient HttpClient
+@inject IHttpClientFactory ClientFactory
 <body>
 
 <h4>@Status</h4>
 @if (isRegistered)
-{
-	<h4>Username is @registerUser.userName</h4>
-	<NavLink class="btn btn-primary" href="/login">Login</NavLink>
-	<br />
-	<br />
-}
+	{
+		<h4>Username is @registerUser.name</h4>
+		<NavLink class="btn btn-primary" href="/login">Login</NavLink>
+		<br />
+		<br />
+	}
 
-<EditForm Model=@registerUser OnSubmit=@FormSubmitted>
-	<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
-	<MudTextField @bind-Value="email" Label="Email" Variant="Variant.Text"></MudTextField>
-	<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text"></MudTextField>
-	<MudTextField @bind-Value="passwordCheck" Label="Re-enter Password" Variant="Variant.Text"></MudTextField>
+	<EditForm Model=@registerUser OnSubmit=@FormSubmitted>
+		<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
+		<MudTextField @bind-Value="email" Label="Email" Variant="Variant.Text"></MudTextField>
+		<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text"></MudTextField>
+		<MudTextField @bind-Value="passwordCheck" Label="Re-enter Password" Variant="Variant.Text"></MudTextField>
 
-	<input type="submit" value="Submit" class="btn btn-primary" />
-</EditForm>
+		<input type="submit" value="Submit" class="btn btn-primary" />
+	</EditForm>
 
 </body>
 
 @code
 {
+	private static readonly HttpClient client = new HttpClient();
 	string userName;
 	string password;
 	string email;
@@ -38,33 +45,40 @@
 
 	void FormSubmitted()
 	{
-		if(String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password)  || String.IsNullOrEmpty(email)  || String.IsNullOrEmpty(passwordCheck))
+		if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(passwordCheck))
 		{
 			Status = "Try again!";
 		}
 
-		else if(password.Equals(passwordCheck))
+		else if (password.Equals(passwordCheck))
 		{
-			Status = "Thanks for registering";
 			isRegistered = true;
-			registerUser.userName = userName;
+			registerUser.name = userName;
 			registerUser.password = password;
 			registerUser.email = email;
+			PostToDatbase();
 		}
 
 		else
 		{
-			Status = "Error: Passwords are not Equal";
+			Status = "Error: Passwords do not match";
 		}
 
-		
-		
 
 
-	
-	
-	
 	}
 
+	//Post the user information to the database
+	public async Task PostToDatbase()
+	{
+		var request = new HttpRequestMessage(HttpMethod.Post,"https://my-api-test.azurewebsites.net/api/createnewitem?code=Ndv8ZTDuwxUTPBWlDlHuiSSyhxJ9RyxrdwZGCSwbhuCEAzFu1nbrZA==");
+		var client = ClientFactory.CreateClient();
 
+		var json = JsonSerializer.Serialize(registerUser);
+		var content = new StringContent(json, Encoding.UTF8, "application/json");
+		request.Content = content;
+
+		var response = await client.SendAsync(request);
+		Console.WriteLine(response);
+	}
 }

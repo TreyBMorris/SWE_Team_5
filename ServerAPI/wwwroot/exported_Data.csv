@@ -1,7 +1,8 @@
-Name,ID,Price,Quantity
-Paper,05ce5e20-3306-46bd-87e9-4cf907f08c00,0.99,8
-Notebook,d34d3490-8153-46e1-a4c3-e37d67f2919d,1.99,5
-Scissors,5a41c3ca-5688-4ff8-b807-db63699ce478,2.99,3
-Pencils,9ad51d93-32c6-4dcd-b96a-975510cc52fa,1.99,20
-Notebooks,79741c08-537c-43c4-9d28-1ed770308cf7,5.99,10
-Laptop,05b9de13-0f8d-4ca8-acde-41eca5faa3ed,275.00,1
+Name,ID,Price,Quantity,Email,Password
+Paper,05ce5e20-3306-46bd-87e9-4cf907f08c00,0.99,8,,
+Notebook,d34d3490-8153-46e1-a4c3-e37d67f2919d,1.99,5,,
+Scissors,5a41c3ca-5688-4ff8-b807-db63699ce478,2.99,3,,
+Pencils,9ad51d93-32c6-4dcd-b96a-975510cc52fa,1.99,20,,
+Notebooks,79741c08-537c-43c4-9d28-1ed770308cf7,5.99,10,,
+Laptop,05b9de13-0f8d-4ca8-acde-41eca5faa3ed,275.00,1,,
+Azure,5a0d7f72-22fc-4a66-b283-4cbdb371c227,,0,azure@example.com,randomStringHere

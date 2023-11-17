@@ -3,6 +3,7 @@
 @using System.Text.Json.Serialization
 @using CsvHelper;
 @using System.IO;
+@using ServerAPI.Data;
 @using System.Globalization;
 @inject NavigationManager NavManager
 @inject IHttpClientFactory ClientFactory
@@ -71,24 +72,7 @@ else
         {
             getBranchesError = true;
         }
-
         shouldRender = true;
-    }
-
-    public class ItemShop
-    {
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
-        [JsonPropertyName("_id")]
-        public string? ID { get; set; }
-        [JsonPropertyName("price")]
-        public string? Price { get; set; }
-        [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
-        [JsonPropertyName("email")]
-        public string? Email { get; set; }
-        [JsonPropertyName("password")]
-        public string? Password { get; set; }
     }
 
     private async Task DownloadFile()

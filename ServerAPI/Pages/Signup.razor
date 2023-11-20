@@ -20,14 +20,14 @@
 		<br />
 	}
 
-	<EditForm Model=@registerUser OnSubmit=@FormSubmitted>
-		<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
-		<MudTextField @bind-Value="email" Label="Email" Variant="Variant.Text"></MudTextField>
-		<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text"></MudTextField>
-		<MudTextField @bind-Value="passwordCheck" Label="Re-enter Password" Variant="Variant.Text"></MudTextField>
+<EditForm Model=@registerUser OnSubmit=@FormSubmitted>
+	<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
+	<MudTextField @bind-Value="email" Label="Email" Variant="Variant.Text"></MudTextField>
+	<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text"></MudTextField>
+	<MudTextField @bind-Value="passwordCheck" Label="Re-enter Password" Variant="Variant.Text"></MudTextField>
 
-		<input type="submit" value="Submit" class="btn btn-primary" />
-	</EditForm>
+	<input type="submit" value="Submit" class="btn btn-primary" />
+</EditForm>
 
 </body>
 
@@ -43,7 +43,7 @@
 	NewUser registerUser = new NewUser();
 	List<string> currentNames = new List<string>();
 
-	
+
 	private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
 	private bool getBranchesError;
 	private bool shouldRender;
@@ -90,6 +90,7 @@
 				registerUser.name = userName;
 				registerUser.password = password;
 				registerUser.email = email;
+				registerUser.role = "user";
 				PostToDatbase();
 				Status = "Registration is successful";
 			}

@@ -16,6 +16,9 @@ namespace ServerAPI.Data
 		public string? Email { get; set; }
 		[JsonPropertyName("password")]
 		public string? Password { get; set; }
+		[JsonPropertyName("role")]
+		public string? Role { get; set; }
 	}
+	
 
 }

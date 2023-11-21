@@ -1,3 +1,7 @@
-Name,ID,Price,Quantity,Email,Password
-admin,dac8bf2b-31f8-414e-8039-2ab95bf85cb0,,0,admin,admin
-trey,86ab2f09-54de-4988-929a-00cd0bb75c71,,0,trey@gmail.com,trey2023
+Name,ID,Price,Quantity,Email,Password,Role
+admin,dac8bf2b-31f8-414e-8039-2ab95bf85cb0,,0,admin,admin,admin
+trey,d1c48636-aa2a-472e-998d-a32ffb5ea9f1,,0,trey@gmail.com,trey2023,user
+hello,9a606fa5-c9bd-4301-806d-edae7a32e933,,0,hello@gmail.com,1234,user
+123,135927d8-fb3f-4687-a117-d7d16736d9bf,,0,123@gmail.com,1234,user
+1233,2d358125-a4d5-44ad-b0ae-049790833579,,0,123,123,user
+124,ac30145f-d0d5-4b8a-a25c-96edf29ba89e,,0,23@gmail.com,1222,user

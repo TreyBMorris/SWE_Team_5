@@ -4,7 +4,7 @@ namespace ServerAPI.Data
 {
     public class Sale
     {
-
+        //ID Property
         [JsonPropertyName("_id")]
         public string? ID { get; set; }
 

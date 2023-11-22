@@ -7,7 +7,7 @@ namespace ServerAPI.Data
         //ID Property
         [JsonPropertyName("_id")]
         public string? ID { get; set; }
-
+        // Name Property
         [JsonPropertyName("name")]
         public string? Name { get; set; }
 

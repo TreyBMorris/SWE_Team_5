@@ -13,7 +13,13 @@
 <h4>@Status</h4>
 @if (isRegistered)
 {
-	<h4>Username is @userName</h4>
+	<h4>Welcome @userName</h4>
+	<br />
+}
+@if (isAdmin)
+{
+	<h4>You have admin access</h4>
+	<NavLink class="btn btn-primary" href="/call-web-api">Sales Report</NavLink>
 	<br />
 	<br />
 }
@@ -37,6 +43,7 @@
 	string password;
 	string Status = "Not submitted";
 	Boolean isRegistered = false;
+	Boolean isAdmin = false;
 	NewUser registerUser = new NewUser();
 
 	private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
@@ -77,8 +84,12 @@
 
 				if (item.Password.Equals(password))
 				{
-					Status = "Welcome!";
+					Status = " ";
 					isRegistered = true;
+					if (item.Role.Equals("admin"))
+					{
+						isAdmin = true;
+					}
 				}
 				else
 				{

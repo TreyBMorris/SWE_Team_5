@@ -1,5 +1,4 @@
-﻿<h1>Browse</h1> 
-@page "/BrowsingPage"
+﻿@page "/BrowsingPage"
 @using MudBlazor
 @using ServerAPI.Data;
 @using System.Text.Json.Serialization
@@ -10,9 +9,28 @@
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
 
-<h3>Items for Sale</h3>
-<img src="fang.jpg">
 
+<h3>Items for Sale</h3>
+<body>
+
+<hr />
+<br />
+<input type="image" name="details" src="images/Ring of Hellfire Icon.png" width="125" height="125"> 
+    <h5>Ring of Hellfire $42.54 </h5>
+<br />
+<br />
+<hr />
+<br />
+<input type="image" name="details" src="images/fang.jpg" width="125" height="125">
+    <h5>Lolth's Fang $33.37 </h5>
+<br />
+<br />
+<hr />
+<br />
+<input type="image" name="details" src="images/Immovable Rod Icon.jpeg" width="125" height="125">
+    <h5>Immovable Rod Icon $26.85 </h5>
+
+</body>
 
 @code {
 

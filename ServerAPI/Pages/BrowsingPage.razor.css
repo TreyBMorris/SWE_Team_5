@@ -1,6 +1,11 @@
 h3 {
     color: #47525E;
 }
+h5 {
+    text-align: right;  
+    display: inline-block;
+    vertical-align: top;
+}
 
 hr {
     border-top: 1px solid red;

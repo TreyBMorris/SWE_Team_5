@@ -14,6 +14,7 @@ namespace ServerAPI.Data
         [JsonPropertyName("price")]
         public double Price { get; set;}
 
+
         [JsonPropertyName("buyer")]
         public string Buyer { get; set; }
 

@@ -14,7 +14,7 @@
 <h4>@Status</h4>
 @if (isRegistered)
 	{
-		<h4>Username is @registerUser.name</h4>
+		<h4>Username is @registerUser.Name</h4>
 		<NavLink class="btn btn-primary" href="/login">Login</NavLink>
 		<br />
 		<br />
@@ -45,7 +45,7 @@
 	List<string> currentNames = new List<string>();
 
 
-	private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
+	private IEnumerable<NewUser>? items = Array.Empty<NewUser>();
 	private bool getBranchesError;
 	private bool shouldRender;
 	private bool canDownload = false;
@@ -64,7 +64,7 @@
 		{
 			using var responseStream = await response.Content.ReadAsStreamAsync();
 			items = await JsonSerializer.DeserializeAsync
-				<IEnumerable<ItemShop>>(responseStream);
+				<IEnumerable<NewUser>>(responseStream);
 		}
 		else
 		{
@@ -88,10 +88,10 @@
 			else
 			{
 				isRegistered = true;
-				registerUser.name = userName;
-				registerUser.password = password;
-				registerUser.email = email;
-				registerUser.role = "user";
+				registerUser.Name = userName;
+				registerUser.Password = password;
+				registerUser.Email = email;
+				registerUser.Role = "user";
 				PostToDatbase();
 				Status = "Registration is successful";
 			}

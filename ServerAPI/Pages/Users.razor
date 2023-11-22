@@ -1,4 +1,4 @@
-﻿@page "/call-web-api"
+﻿@page "/users"
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using CsvHelper;
@@ -9,11 +9,11 @@
 @inject IHttpClientFactory ClientFactory
 @inject IJSRuntime JSRuntime;
 
-<h1>Generate a sales report.</h1>
+<h1>Active Users</h1>
 
 @if (getBranchesError || records is null)
 {
-    <p>Unable to get branches from GitHub. Please try again later.</p>
+    <p>Unable to get branches from Source. Please try again later.</p>
 }
 else
 {
@@ -21,28 +21,28 @@ else
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Item Name</th>
-                <th>Buyer</th>
-                <th>Sold Price</th>
-                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in records)
+            @foreach (var record in records)
             {
                 <tr>
-                    <td>@item.ID</td>
-                    <td>@item.Name</td>
-                    <td>@item.Price</td>
-                    <td>@item.Buyer</td>
-                    <td>@item.purchase_Date</td>
+                    <td>@record.ID</td>
+                    <td>@record.Name</td>
+                    <td>@record.Email</td>
+                    <td>@record.Password</td>
+                    <td>@record.Role</td>
                 </tr>
             }
         </tbody>
     </table>
 }
 <button class="btn btn-primary" @onclick="GetCSV">Generate CSV</button>
-@if(canDownload)
+@if (canDownload)
 {
     <br />
     <br />
@@ -50,7 +50,7 @@ else
 }
 
 @code {
-    private IEnumerable<Sale>? records = Array.Empty<Sale>();
+    private IEnumerable<OurUsers>? records = Array.Empty<OurUsers>();
     private bool getBranchesError;
     private bool shouldRender;
     private bool canDownload = false;
@@ -58,7 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://store-sales.azurewebsites.net/api/get-list?code=4ZjCTRtAtKJX8ylQvsvBOsp8mJaMa2HnCpG1h0CiFDGAAzFuvqHXQg==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
 
         var client = ClientFactory.CreateClient();
 
@@ -68,7 +68,7 @@ else
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
             records = await JsonSerializer.DeserializeAsync
-                <IEnumerable<Sale>>(responseStream);
+                <IEnumerable<OurUsers>>(responseStream);
         }
         else
         {

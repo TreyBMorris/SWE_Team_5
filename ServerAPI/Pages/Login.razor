@@ -19,7 +19,8 @@
 @if (isAdmin)
 {
 	<h4>You have admin access</h4>
-	<NavLink class="btn btn-primary" href="/call-web-api">Sales Report</NavLink>
+	<NavLink class="btn btn-primary" href="/sales-report">Sales Report</NavLink>
+	<NavLink class="btn btn-primary" href="/users">Active Users</NavLink>
 	<br />
 	<br />
 }
@@ -46,7 +47,7 @@
 	Boolean isAdmin = false;
 	NewUser registerUser = new NewUser();
 
-	private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
+	private IEnumerable<OurUsers>? items = Array.Empty<OurUsers>();
 	private bool getBranchesError;
 	private bool shouldRender;
 	private bool canDownload = false;
@@ -65,7 +66,7 @@
 		{
 			using var responseStream = await response.Content.ReadAsStreamAsync();
 			items = await JsonSerializer.DeserializeAsync
-				<IEnumerable<ItemShop>>(responseStream);
+				<IEnumerable<OurUsers>>(responseStream);
 		}
 		else
 		{

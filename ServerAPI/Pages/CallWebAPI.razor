@@ -9,9 +9,9 @@
 @inject IHttpClientFactory ClientFactory
 @inject IJSRuntime JSRuntime;
 
-<h1>Generate a sales report!</h1>
+<h1>Generate a sales report.</h1>
 
-@if (getBranchesError || items is null)
+@if (getBranchesError || records is null)
 {
     <p>Unable to get branches from GitHub. Please try again later.</p>
 }
@@ -21,21 +21,21 @@ else
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Role</th>
+                <th>Item Name</th>
+                <th>Buyer</th>
+                <th>Sold Price</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in items)
+            @foreach (var item in records)
             {
                 <tr>
                     <td>@item.ID</td>
                     <td>@item.Name</td>
-                    <td>@item.Email</td>
-                    <td>@item.Password</td>
-                    <td>@item.Role</td>
+                    <td>@item.Price</td>
+                    <td>@item.Buyer</td>
+                    <td>@item.purchase_Date</td>
                 </tr>
             }
         </tbody>
@@ -50,7 +50,7 @@ else
 }
 
 @code {
-    private IEnumerable<ItemShop>? items = Array.Empty<ItemShop>();
+    private IEnumerable<Sale>? records = Array.Empty<Sale>();
     private bool getBranchesError;
     private bool shouldRender;
     private bool canDownload = false;
@@ -58,7 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,"https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://store-sales.azurewebsites.net/api/get-list?code=4ZjCTRtAtKJX8ylQvsvBOsp8mJaMa2HnCpG1h0CiFDGAAzFuvqHXQg==");
 
         var client = ClientFactory.CreateClient();
 
@@ -67,8 +67,8 @@ else
         if (response.IsSuccessStatusCode)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
-            items = await JsonSerializer.DeserializeAsync
-                <IEnumerable<ItemShop>>(responseStream);
+            records = await JsonSerializer.DeserializeAsync
+                <IEnumerable<Sale>>(responseStream);
         }
         else
         {
@@ -91,7 +91,7 @@ else
         {
             using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
             {
-                csvWriter.WriteRecords(items);
+                csvWriter.WriteRecords(records);
                 canDownload = true;
             }
         }

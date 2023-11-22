@@ -20,6 +20,7 @@
 		<br />
 	}
 
+
 <EditForm Model=@registerUser OnSubmit=@FormSubmitted>
 	<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
 	<MudTextField @bind-Value="email" Label="Email" Variant="Variant.Text"></MudTextField>
@@ -115,7 +116,7 @@
 	//Loops through the current usernames in the database and then checks if the username is already in use. this kinda sucks but it works.
 	private bool checkName(string userName)
 	{
-		Console.WriteLine("Passed Username" + userName);
+		
 		foreach(var item in items)
 		{
 			if(item.Name.Equals(userName))

@@ -8,42 +8,21 @@
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
-<h1>Item</h1>
-<h1>Passed Parameter @PathParam</h1>
+<h1>@itemName</h1>
+
 @if (getBranchesError || records is null)
 {
     <p>Unable to get branches from Source. Please try again later.</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Item Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Image Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in records)
-            {
-                <tr>
-                    @if(item.ID.Equals(PathParam))
-                    {
-                        <td>@item.ID</td>
-                        <td>@item.Name</td>
-                        <td>@item.Price</td>
-                        <td>@item.Description</td>
-                        <td>@item.Image</td>
-                    }
-                    
-                    
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    <img src="@itemImage" alt="Product" />
+    <br />
+    <h3>Description: @itemDescription</h3>
+    <br />
+    <h4>Our Price: @itemPrice</h4>
+
 }
 @code{
     [Parameter]
@@ -54,6 +33,11 @@ else
     private bool shouldRender;
     private bool canDownload = false;
     protected override bool ShouldRender() => shouldRender;
+    private string? itemName;
+    private double? itemPrice;
+    private string? itemDescription;
+    private string? itemImage;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,6 +58,26 @@ else
             getBranchesError = true;
         }
         shouldRender = true;
+
+        foreach (var item in records)
+        {
+
+            if (item.ID.Equals(PathParam))
+            {
+                itemName = item.Name;
+                itemPrice = item.Price;
+                itemDescription = item.Description;
+                itemImage = item.Image;
+            }
+
+
+
+        }
     }
+    
+
+
+
+
 
 }

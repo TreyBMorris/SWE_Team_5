@@ -1,4 +1,4 @@
-@page "/Item"
+@page "/Item/{PathParam}"
 @using MudBlazor
 @using ServerAPI.Data;
 @using System.Text.Json.Serialization
@@ -8,8 +8,72 @@
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
-
+<h1>Item</h1>
+<h1>Passed Parameter @PathParam</h1>
+@if (getBranchesError || records is null)
+{
+    <p>Unable to get branches from Source. Please try again later.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Image Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in records)
+            {
+                <tr>
+                    @if(item.ID.Equals(PathParam))
+                    {
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.Description</td>
+                        <td>@item.Image</td>
+                    }
+                    
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 @code{
-  
+    [Parameter]
+    public string? PathParam { get; set; }
+
+    private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
+    private bool getBranchesError;
+    private bool shouldRender;
+    private bool canDownload = false;
+    protected override bool ShouldRender() => shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            records = await JsonSerializer.DeserializeAsync
+                <IEnumerable<ItemShop>>(responseStream);
+        }
+        else
+        {
+            getBranchesError = true;
+        }
+        shouldRender = true;
+    }
 
 }

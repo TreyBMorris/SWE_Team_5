@@ -1,7 +1,6 @@
 ﻿@page "/users"
 @using System.Text.Json
-@using System.Text.Json.Serialization
-@using CsvHelper;
+@using System.Text.Json.Serialization;
 @using System.IO;
 @using ServerAPI.Data;
 @using System.Globalization;
@@ -41,13 +40,6 @@ else
         </tbody>
     </table>
 }
-<button class="btn btn-primary" @onclick="GetCSV">Generate CSV</button>
-@if (canDownload)
-{
-    <br />
-    <br />
-    <button class="btn btn-primary" @onclick="DownloadFile">Download CSV</button>
-}
 
 @code {
     private IEnumerable<OurUsers>? records = Array.Empty<OurUsers>();
@@ -77,23 +69,4 @@ else
         shouldRender = true;
     }
 
-    private async Task DownloadFile()
-    {
-        var fileName = "exported_Data.csv";
-        var fileURL = "https://localhost:7087/exported_Data.csv";
-        await JSRuntime.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
-    }
-
-    public void GetCSV()
-    {
-        var csvPath = Path.Combine("wwwroot", $"exported_Data.csv");
-        using (var streamWriter = new StreamWriter(csvPath))
-        {
-            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
-            {
-                csvWriter.WriteRecords(records);
-                canDownload = true;
-            }
-        }
-    }
 }

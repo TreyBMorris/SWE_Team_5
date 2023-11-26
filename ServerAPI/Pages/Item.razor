@@ -8,7 +8,8 @@
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
-<h1>@itemName</h1>
+<h2>@itemName</h2>
+<hr />
 
 @if (getBranchesError || records is null)
 {
@@ -17,12 +18,14 @@
 else
 {
 
-    <img src="@itemImage" alt="Product" />
+    <img src="@itemImage" alt="Product" class="product" />
+    <h3 class="description">@itemDescription</h3>
+    <br /> 
+    <br /> 
+    <h4 class = "price">$@itemPrice</h4>
     <br />
-    <h3>Description: @itemDescription</h3>
     <br />
-    <h4>Our Price: @itemPrice</h4>
-
+    <button class="btn btn-primary">ADD TO SHOPPING CART</button>
 }
 @code{
     [Parameter]

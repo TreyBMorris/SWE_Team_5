@@ -1,0 +1,17 @@
+﻿.product {
+    float: left;
+}
+
+.heading {
+    float: right;
+}
+.price{
+    float:right;
+}
+button {
+    background-color: blue;
+    float: right;
+}
+button:hover {
+    background-color: black;
+}

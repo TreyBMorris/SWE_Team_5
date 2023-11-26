@@ -35,11 +35,11 @@
 @code
 {
 	private static readonly HttpClient client = new HttpClient();
-	string userName;
-	string password;
-	string email;
-	string passwordCheck;
-	string Status = "Not submitted";
+	string? userName;
+	string? password;
+	string? email;
+	string? passwordCheck;
+	string? Status = "Not submitted";
 	Boolean isRegistered = false;
 	NewUser registerUser = new NewUser();
 	List<string> currentNames = new List<string>();

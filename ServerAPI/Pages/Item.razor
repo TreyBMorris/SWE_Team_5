@@ -25,6 +25,24 @@ else
     <br />
     <br />
     <button class="btn btn-primary" onclick=@AddToCart>ADD TO SHOPPING CART</button>
+    @if (Show)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Item Has Been Added</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Item has been added to your shopping cart</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@(()=> this.Show=false)">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 @code{
     [Parameter]
@@ -41,6 +59,8 @@ else
     private string? itemImage;
     private string? itemSold;
     private Boolean? InCart;
+    public bool Show { get; set; } = false;
+
     // Kinda cheating, making the database to a HTTP Put Call to add items to shopping cart.
     CartCheck updateCart = new CartCheck();
 
@@ -82,6 +102,7 @@ else
 
     public async Task AddToCart()
     {
+        this.Show = true;
         updateCart.InCart = true;
         string url = ($"https://items.azurewebsites.net/api/item/{PathParam}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
         var request = new HttpRequestMessage(HttpMethod.Put, url);

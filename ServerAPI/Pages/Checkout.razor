@@ -29,12 +29,31 @@ else
             <img src="@record.Image" alt="Product" class="product" width="125" height="125" />
             <p class="price">$@record.Price</p>
             <br />
-            <button class="btn btn-primary" onclick=@ButtonClick>Delete</button>
+            deleteID = record.ID;
+            <button class="btn btn-primary" onclick=@onDelete>Delete</button>
             <br />
         }
         <br />
     }
-    
+    @if (Show)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove from Shopping Cart?</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove the last added item to your shopping cart?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="@RemoveFromCart">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@(()=> this.Show=false)">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 @code{
     private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
@@ -48,6 +67,7 @@ else
     private Boolean userDelete = false;
     private string? deleteID;
     private string? Result;
+    public bool Show { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,17 +90,13 @@ else
         shouldRender = true;
     }
 
-    void ButtonClick()
-    {
-        ID = "d40bb3ec-4ea0-4a7e-8c5c-aa3bed89bb3b";
-        RemoveFromCart(ID);
-    }
 
 
-    public async Task RemoveFromCart(string ID)
+    public async Task RemoveFromCart()
     {
+        this.Show = false;
         updateCart.InCart = false;
-        string url = ($"https://items.azurewebsites.net/api/item/{ID}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        string url = ($"https://items.azurewebsites.net/api/item/{deleteID}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(updateCart);
@@ -88,6 +104,11 @@ else
         request.Content = content;
 
         var response = await client.SendAsync(request);
+        Result = "Item Removed, Refresh.";
     }
     
+    private void onDelete()
+    {
+        this.Show = true;
+    }
 }

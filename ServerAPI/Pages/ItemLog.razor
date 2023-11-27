@@ -1,0 +1,76 @@
+﻿@page "/log"
+@using System.Text.Json
+@using System.Text.Json.Serialization;
+@using System.IO;
+@using ServerAPI.Data;
+@using System.Globalization;
+@inject NavigationManager NavManager
+@inject IHttpClientFactory ClientFactory
+@inject IJSRuntime JSRuntime;
+
+<h1>Items in the Database</h1>
+
+@if (getBranchesError || records is null)
+{
+    <p>Unable to get branches from Source. Please try again later.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Image Link</th>
+                <th>Sold</th>
+                <th>InCart</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in records)
+            {
+                <tr>
+                    <td>@record.ID</td>
+                    <td>@record.Name</td>
+                    <td>@record.Description</td>
+                    <td>@record.Price</td>
+                    <td>@record.Image</td>
+                    <td>@record.Sold</td>
+                    <td>@record.InCart</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
+    private bool getBranchesError;
+    private bool shouldRender;
+    private bool canDownload = false;
+    protected override bool ShouldRender() => shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            records = await JsonSerializer.DeserializeAsync
+                <IEnumerable<ItemShop>>(responseStream);
+        }
+        else
+        {
+            getBranchesError = true;
+        }
+        shouldRender = true;
+    }
+
+}

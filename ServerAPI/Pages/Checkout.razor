@@ -1,14 +1,16 @@
-@page "/Item/{PathParam}"
+@page "/checkout"
 @using MudBlazor
 @using ServerAPI.Data;
 @using System.Text.Json.Serialization
 @using System.Net.Http;
 @using System.Text;
 @using System.Text.Json;
+@inject IJSRuntime JsRuntime
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
-<h2>@itemName</h2>
+<h3>Shopping Cart</h3>
+<h4>@Result</h4>
 <hr />
 
 @if (getBranchesError || records is null)
@@ -17,32 +19,35 @@
 }
 else
 {
-    <img src="@itemImage" alt="Product" class="product" />
-    <h3 class="description">@itemDescription</h3>
-    <br /> 
-    <br /> 
-    <h4 class = "price">$@itemPrice</h4>
-    <br />
-    <br />
-    <button class="btn btn-primary" onclick=@AddToCart>ADD TO SHOPPING CART</button>
+    @foreach (var record in records)
+    {
+        
+        if(record.InCart==true)
+        {
+            <h4 class="name">@record.Name</h4>
+            <br />
+            <img src="@record.Image" alt="Product" class="product" width="125" height="125" />
+            <p class="price">$@record.Price</p>
+            <br />
+            <button class="btn btn-primary" onclick=@ButtonClick>Delete</button>
+            <br />
+        }
+        <br />
+    }
+    
 }
 @code{
-    [Parameter]
-    public string? PathParam { get; set; }
-
     private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
     private bool getBranchesError;
     private bool shouldRender;
     private bool canDownload = false;
     protected override bool ShouldRender() => shouldRender;
-    private string? itemName;
-    private double? itemPrice;
-    private string? itemDescription;
-    private string? itemImage;
-    private string? itemSold;
-    private Boolean? InCart;
-    // Kinda cheating, making the database to a HTTP Put Call to add items to shopping cart.
+    private string? ID;
+    // Kinda cheating, making the database to a HTTP Put Call to remove items to shopping cart.
     CartCheck updateCart = new CartCheck();
+    private Boolean userDelete = false;
+    private string? deleteID;
+    private string? Result;
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,27 +68,19 @@ else
             getBranchesError = true;
         }
         shouldRender = true;
-
-        foreach (var item in records)
-        {
-
-            if (item.ID.Equals(PathParam))
-            {
-                itemName = item.Name;
-                itemPrice = item.Price;
-                itemDescription = item.Description;
-                itemImage = item.Image;
-                itemSold = item.Sold;
-                InCart = item.InCart;
-            }
-        }
-
     }
 
-    public async Task AddToCart()
+    void ButtonClick()
     {
-        updateCart.InCart = true;
-        string url = ($"https://items.azurewebsites.net/api/item/{PathParam}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        ID = "d40bb3ec-4ea0-4a7e-8c5c-aa3bed89bb3b";
+        RemoveFromCart(ID);
+    }
+
+
+    public async Task RemoveFromCart(string ID)
+    {
+        updateCart.InCart = false;
+        string url = ($"https://items.azurewebsites.net/api/item/{ID}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(updateCart);
@@ -92,8 +89,5 @@ else
 
         var response = await client.SendAsync(request);
     }
-
-
-
-
+    
 }

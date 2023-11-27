@@ -14,5 +14,9 @@ namespace ServerAPI.Data
 		public string? Description { get; set; }
         [JsonPropertyName("image")]
         public string? Image { get; set; }
+        [JsonPropertyName("sold")]
+        public string? Sold { get; set; }
+        [JsonPropertyName("InCart")]
+        public Boolean InCart { get; set; }
     }
 }

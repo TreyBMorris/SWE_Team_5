@@ -1,0 +1,12 @@
+﻿.price {
+    float: right;
+}
+
+button {
+    background-color: red;
+    float: right;
+}
+
+button:hover {
+    background-color: black;
+}

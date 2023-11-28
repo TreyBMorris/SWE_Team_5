@@ -1,0 +1,17 @@
+﻿.price {
+    float: right;
+}
+
+button {
+    float: right;
+}
+
+    button:hover {
+        background-color: black;
+    }
+
+::deep .nav-active {
+    float: right;
+    font-style: normal;
+}body {
+}

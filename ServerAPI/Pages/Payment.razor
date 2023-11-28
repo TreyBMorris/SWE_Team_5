@@ -35,6 +35,11 @@ else
 		}
         <br />
     }
+    @foreach (var sale in sales)
+    {
+        <h4>@sale.Buyer</h4>
+        <h4>@sale.ID</h4>
+    }
     <br />
 	<hr />
 	<h3>SUBTOTAL: @cartPrice</h3>
@@ -62,7 +67,7 @@ else
 	</select>
 	<br />
 	<br />
-    <input type="submit" value="Confirm order" class="btn btn-primary" @onclick="@(()=>NavManager.NavigateTo("/home"))" />
+    <input type="submit" value="Confirm order" class="btn btn-primary" @onclick="@(()=>NavManager.NavigateTo($"/confirm/{shippingSpeed}"))" />
 </EditForm>
 
 
@@ -86,15 +91,18 @@ else
     public bool Disabled { get; set; }
     StringBuilder sb = new StringBuilder();
     private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
+    private IEnumerable<Sale>? sales = Array.Empty<Sale>();
     private bool getBranchesError;
     private bool shouldRender;
     private bool canDownload = false;
     protected override bool ShouldRender() => shouldRender;
     private string? userItems;
+    private string? recentID;
 
     protected override async Task OnInitializedAsync()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+
 
         var client = ClientFactory.CreateClient();
 
@@ -103,8 +111,8 @@ else
         if (response.IsSuccessStatusCode)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
-            records = await JsonSerializer.DeserializeAsync
-                <IEnumerable<ItemShop>>(responseStream);
+            records = await JsonSerializer.DeserializeAsync<IEnumerable<ItemShop>>(responseStream);
+
         }
         else
         {
@@ -162,7 +170,7 @@ else
             if (record.InCart == true)
             {
                 sb.Append(record.Name);
-                sb.Append(",");
+                sb.Append(", ");
             }
         }
         userItems = sb.ToString();
@@ -171,12 +179,14 @@ else
 
     public async Task PostToDatbase()
     {
-		var request = new HttpRequestMessage(HttpMethod.Post, "https://store-sales.azurewebsites.net/api/createnewitem?code=3Z5uU1SuyyjiAlhLLj45-HrFXkctpEC4mZdow1PKhWjAAzFuJova8g==");
-		var client = ClientFactory.CreateClient();
-		var json = JsonSerializer.Serialize(newOrder);
-		var content = new StringContent(json, Encoding.UTF8, "application/json");
-		request.Content = content;
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://store-sales.azurewebsites.net/api/createnewitem?code=3Z5uU1SuyyjiAlhLLj45-HrFXkctpEC4mZdow1PKhWjAAzFuJova8g==");
+        var client = ClientFactory.CreateClient();
+        var json = JsonSerializer.Serialize(newOrder);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        request.Content = content;
 
-		var response = await client.SendAsync(request);
-	}
+        var response = await client.SendAsync(request);
+    }
+
+    
 }

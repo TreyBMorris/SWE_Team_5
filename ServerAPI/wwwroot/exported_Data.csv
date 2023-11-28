@@ -1,2 +1,4 @@
 ID,Buyer,Items,Email,Address,PhoneNumber,ShippingSpeed,OrderDate,isConfirmed,Price
-021ffcf1-cfc7-4815-9ceb-e34b4eb8e733,Trey,Item,trey@gmail.com,123 Kennesaw Street,7705618739,three-day,11-28-2023,False,47.36
+021ffcf1-cfc7-4815-9ceb-e34b4eb8e733,Trey,Item,trey@gmail.com,123 Kennesaw Street,7705618739,three-day,11-28-2023,True,128.28
+16c91a77-c76c-4054-affc-dfe52d6c27ed,Trey Morris,"Amulet of Buoyancy, Amulet of the Planes, ",trey@gmail.com,123 Kennesaw Street,7705618739,overnight,11-28-2023,True,138.28
+3be0062f-a3a1-472e-9bf4-04e354bbeebd,Trey M,"Amulet of Buoyancy, Amulet of the Planes, ",trey@gmail.com,"123 Kennesaw Street Kennesaw, Georgia 30101",7705618739,ground,11-28-2023,True,109.28

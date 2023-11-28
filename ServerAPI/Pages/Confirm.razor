@@ -66,7 +66,8 @@ else
     private double orderTotal = 0;
     private double orderTotalRounded = 0;
     private string? recentID;
-
+    // Kinda cheating, making the database to a HTTP Put Call to remove items from shopping cart.
+    CartCheck updateCart = new CartCheck();
 
     protected override async Task OnInitializedAsync()
     {
@@ -180,6 +181,18 @@ else
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(saleUpdate);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        request.Content = content;
+
+        var response = await client.SendAsync(request);
+    }
+    public async Task RemoveFromCart()
+    {
+        updateCart.InCart = false;
+        string url = ($"https://items.azurewebsites.net/api/item/{PathParam}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        var request = new HttpRequestMessage(HttpMethod.Put, url);
+        var client = ClientFactory.CreateClient();
+        var json = JsonSerializer.Serialize(updateCart);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         request.Content = content;
 

@@ -9,6 +9,7 @@
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
+
 <h3>Shopping Cart</h3>
 <h4>@Result</h4>
 <hr />
@@ -24,6 +25,7 @@ else
         
         if(record.InCart==true)
         {
+            itemCount++;
             <h4 class="name">@record.Name</h4>
             <br />
             <img src="@record.Image" alt="Product" class="product" width="125" height="125" />
@@ -35,6 +37,11 @@ else
         }
         <br />
     }
+    <br />
+    <hr />
+    <h4>@itemCount Items</h4>
+    <button class="btn btn-primary" @onclick="@(()=>NavManager.NavigateTo("/payment"))">PAY NOW</button>
+
     @if (Show)
     {
         <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
@@ -62,12 +69,14 @@ else
     private bool canDownload = false;
     protected override bool ShouldRender() => shouldRender;
     private string? ID;
+    private int itemCount = 0;
     // Kinda cheating, making the database to a HTTP Put Call to remove items to shopping cart.
     CartCheck updateCart = new CartCheck();
     private Boolean userDelete = false;
     private string? deleteID;
     private string? Result;
     public bool Show { get; set; } = false;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,10 +99,10 @@ else
         shouldRender = true;
     }
 
-
-
     public async Task RemoveFromCart()
     {
+        itemCount--;
+        
         this.Show = false;
         updateCart.InCart = false;
         string url = ($"https://items.azurewebsites.net/api/item/{deleteID}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");

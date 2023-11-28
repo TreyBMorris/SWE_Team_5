@@ -7,6 +7,9 @@
 @using System.Text.Json;
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
+@using System;
+@using System.Globalization;
+@using System.Collections;
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
@@ -25,7 +28,7 @@ else
         
         if(record.InCart==true)
         {
-            <h4 class="name">@record.Name</h4>
+			<h4 class="name">@record.Name</h4>
 			<br />
 			<p class="price">$@record.Price</p>
 			
@@ -59,7 +62,7 @@ else
 	</select>
 	<br />
 	<br />
-	<input type="submit" value="Confirm order" class="btn btn-primary" />
+    <input type="submit" value="Confirm order" class="btn btn-primary" @onclick="@(()=>NavManager.NavigateTo("/home"))" />
 </EditForm>
 
 
@@ -67,72 +70,113 @@ else
 
 
 
-
-
-
-
 @code {
-	NewOrder newOrder = new NewOrder();
-	string? buyer;
-	string? address;
-	string? email;
-	string? itemName;
-	string? phoneNumber;
-	string shippingSpeed = "ground";
-	private string? creditCard;
-	private string? expiration;
-	private string? cvc;
-	private double cartPrice = 0;
-	public bool Disabled { get; set; }
+    NewOrder newOrder = new NewOrder();
+    string? buyer;
+    string? address;
+    string? email;
+    string? itemName;
+    string? phoneNumber;
+    string shippingSpeed = "ground";
+    private string? creditCard;
+    private string? expiration;
+    ArrayList items = new ArrayList();
+    private string? cvc;
+    private double cartPrice = 0;
+    public bool Disabled { get; set; }
+    StringBuilder sb = new StringBuilder();
+    private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
+    private bool getBranchesError;
+    private bool shouldRender;
+    private bool canDownload = false;
+    protected override bool ShouldRender() => shouldRender;
+    private string? userItems;
 
-	private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
-	private bool getBranchesError;
-	private bool shouldRender;
-	private bool canDownload = false;
-	protected override bool ShouldRender() => shouldRender;
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            records = await JsonSerializer.DeserializeAsync
+                <IEnumerable<ItemShop>>(responseStream);
+        }
+        else
+        {
+            getBranchesError = true;
+        }
+        shouldRender = true;
+        GetSubtotal();
+        ItemString();
+    }
 
 
-	protected override async Task OnInitializedAsync()
-	{
-		var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+    void FormSubmitted()
+    {
+        newOrder.Buyer = buyer;
+        newOrder.Address = address;
+        newOrder.PhoneNumber = phoneNumber;
+        newOrder.Email = email;
+        newOrder.ShippingSpeed = shippingSpeed;
+        newOrder.CreatedDate = DateTime.Now.ToString("MM-dd-yyyy");
+        newOrder.isConfirmed = false;
+        newOrder.Price = cartPrice;
+        newOrder.Items = userItems;
+        foreach(var record in records)
+        {
+            if(record.InCart == true)
+            {
+                items.Add(record.Name);
+            }
+        }
 
+
+
+
+
+        PostToDatbase();
+
+
+    }
+    private void GetSubtotal()
+    {
+        foreach (var record in records)
+        {
+            if(record.InCart == true)
+            {
+                cartPrice += record.Price; 
+            }
+        }
+    }
+
+    private void ItemString()
+    {
+
+        foreach (var record in records)
+        {
+            if (record.InCart == true)
+            {
+                sb.Append(record.Name);
+                sb.Append(",");
+            }
+        }
+        userItems = sb.ToString();
+    }
+
+
+    public async Task PostToDatbase()
+    {
+		var request = new HttpRequestMessage(HttpMethod.Post, "https://store-sales.azurewebsites.net/api/createnewitem?code=3Z5uU1SuyyjiAlhLLj45-HrFXkctpEC4mZdow1PKhWjAAzFuJova8g==");
 		var client = ClientFactory.CreateClient();
+		var json = JsonSerializer.Serialize(newOrder);
+		var content = new StringContent(json, Encoding.UTF8, "application/json");
+		request.Content = content;
 
 		var response = await client.SendAsync(request);
-
-		if (response.IsSuccessStatusCode)
-		{
-			using var responseStream = await response.Content.ReadAsStreamAsync();
-			records = await JsonSerializer.DeserializeAsync
-				<IEnumerable<ItemShop>>(responseStream);
-		}
-		else
-		{
-			getBranchesError = true;
-		}
-		shouldRender = true;
-		GetSubtotal();
-	}
-
-
-	void FormSubmitted()
-	{
-		newOrder.Buyer = buyer;
-		newOrder.Address = address;
-		newOrder.PhoneNumber = phoneNumber;
-		newOrder.Email = email;
-		newOrder.ShippingSpeed = shippingSpeed;
-		newOrder.isConfirmed = false;
-
-	}
-	private void GetSubtotal()
-	{
-		foreach (var record in records)
-		{
-			if(record.InCart == true)
-			{
-				cartPrice += record.Price; 
-			}
-		}
 	}
 }

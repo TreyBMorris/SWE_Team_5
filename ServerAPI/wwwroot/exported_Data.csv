@@ -1,2 +1,2 @@
-ID,Name,Price,Buyer,purchase_Date
-e71ead2a-31b4-443c-9e6e-a308b5eb7bff,Item_Name,999.99,Buyer_Name,11-21-2023
+ID,Buyer,Items,Email,Address,PhoneNumber,ShippingSpeed,OrderDate,isConfirmed,Price
+021ffcf1-cfc7-4815-9ceb-e34b4eb8e733,Trey,Item,trey@gmail.com,123 Kennesaw Street,7705618739,three-day,11-28-2023,False,47.36

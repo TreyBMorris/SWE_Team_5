@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections;
+using System.Text.Json.Serialization;
 
 namespace ServerAPI.Data
 {
@@ -7,23 +8,28 @@ namespace ServerAPI.Data
         // ID Property
         [JsonPropertyName("_id")]
         public string? ID { get; set; }
-        // Name Property
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+		//Buyer Property
+        [JsonPropertyName("Buyer")]
+        public string? Buyer { get; set; }
+		
+        [JsonPropertyName("Items")]
+        public string? Items { get; set; }
 
-        // Price Property
-        [JsonPropertyName("price")]
-        public double Price { get; set;}
+		[JsonPropertyName("Email")]
+        public string? Email { get; set; }
+		[JsonPropertyName("Address")]
+        public string? Address { get; set; }
+		[JsonPropertyName("PhoneNumber")]
+        public string? PhoneNumber { get; set; }
+        [JsonPropertyName("ShippingSpeed")]
+        public string? ShippingSpeed { get; set; }
+		[JsonPropertyName("CreatedDate")]
+        public string? OrderDate { get; set; }
+		[JsonPropertyName("isConfirmed")]
+        public Boolean? isConfirmed { get; set; }
+		[JsonPropertyName("Price")]
+		public double? Price { get; set; }
 
-        // Buyer Property
-        [JsonPropertyName("buyer")]
-        public string Buyer { get; set; }
 
-        [JsonPropertyName("date")]
-        public string purchase_Date { get; set; }
-
-
-
-
-    }
+	}
 }

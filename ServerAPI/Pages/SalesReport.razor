@@ -4,6 +4,8 @@
 @using CsvHelper;
 @using System.IO;
 @using ServerAPI.Data;
+@using System.Text;
+@using System.Linq;
 @using System.Globalization;
 @inject NavigationManager NavManager
 @inject IHttpClientFactory ClientFactory
@@ -20,11 +22,16 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Item Name</th>
+                <th>Order-ID</th>
                 <th>Buyer</th>
-                <th>Sold Price</th>
-                <th>Date</th>
+                <th>Items</th>
+                <th>Price</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>PhoneNumber</th>
+                <th>ShippingSpeed</th>
+                <th>OrderDate</th>
+                <th>isConfirmed</th>
             </tr>
         </thead>
         <tbody>
@@ -32,10 +39,15 @@ else
             {
                 <tr>
                     <td>@item.ID</td>
-                    <td>@item.Name</td>
-                    <td>@item.Price</td>
                     <td>@item.Buyer</td>
-                    <td>@item.purchase_Date</td>
+                    <td>@item.Items</td>
+                    <td>@item.Price</td>
+                    <td>@item.Email</td>
+                    <td>@item.Address</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.ShippingSpeed</td>
+                    <td>@item.OrderDate</td>
+                    <td>@item.isConfirmed</td>
                 </tr>
             }
         </tbody>

@@ -147,7 +147,7 @@ else
         request.Content = content;
 
         var response = await client.SendAsync(request);
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo($"/receipt/{recentID}");
     }
 
 

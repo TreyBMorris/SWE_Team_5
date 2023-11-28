@@ -11,9 +11,34 @@
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
+
+<h3>Order Summary</h3>
+<hr />
+@if (getBranchesError || records is null)
+{
+    <p>Unable to get branches from Source. Please try again later.</p>
+}
+else
+{
+    @foreach (var record in records)
+    {
+        
+        if(record.InCart==true)
+        {
+            <h4 class="name">@record.Name</h4>
+			<br />
+			<p class="price">$@record.Price</p>
+			
+		}
+        <br />
+    }
+    <br />
+	<hr />
+	<h3>SUBTOTAL: @cartPrice</h3>
+}
+
 <h3>Payment Details</h3>
 <hr />
-
 <EditForm Model=@newOrder OnSubmit=@FormSubmitted>
 	<MudTextField @bind-Value="buyer" Label="Name" Variant="Variant.Text"></MudTextField>
 	<MudTextField @bind-Value="address" Label="Shipping Address" Variant="Variant.Text"></MudTextField>
@@ -27,7 +52,7 @@
 	<label>Shipping Speed</label>
 	<br />
 	<select @bind="@shippingSpeed">
-	<option value= " ">Select</option>
+	<option value= "ground">Select</option>
 	<option value="overnight">Overnight ($29)</option>
 	<option value="three-day">3-Day ($19)</option>
 	<option value="ground">Ground ($0)</option>
@@ -40,7 +65,7 @@
 
 
 
-<h1>@newOrder.ShippingSpeed</h1>
+
 
 
 
@@ -53,12 +78,42 @@
 	string? email;
 	string? itemName;
 	string? phoneNumber;
-	string? shippingSpeed;
+	string shippingSpeed = "ground";
 	private string? creditCard;
 	private string? expiration;
 	private string? cvc;
-	private string? Flag;
+	private double cartPrice = 0;
 	public bool Disabled { get; set; }
+
+	private IEnumerable<ItemShop>? records = Array.Empty<ItemShop>();
+	private bool getBranchesError;
+	private bool shouldRender;
+	private bool canDownload = false;
+	protected override bool ShouldRender() => shouldRender;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+
+		var client = ClientFactory.CreateClient();
+
+		var response = await client.SendAsync(request);
+
+		if (response.IsSuccessStatusCode)
+		{
+			using var responseStream = await response.Content.ReadAsStreamAsync();
+			records = await JsonSerializer.DeserializeAsync
+				<IEnumerable<ItemShop>>(responseStream);
+		}
+		else
+		{
+			getBranchesError = true;
+		}
+		shouldRender = true;
+		GetSubtotal();
+	}
+
 
 	void FormSubmitted()
 	{
@@ -67,5 +122,17 @@
 		newOrder.PhoneNumber = phoneNumber;
 		newOrder.Email = email;
 		newOrder.ShippingSpeed = shippingSpeed;
+		newOrder.isConfirmed = false;
+
+	}
+	private void GetSubtotal()
+	{
+		foreach (var record in records)
+		{
+			if(record.InCart == true)
+			{
+				cartPrice += record.Price; 
+			}
+		}
 	}
 }

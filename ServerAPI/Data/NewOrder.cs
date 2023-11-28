@@ -9,6 +9,7 @@
         public string? PhoneNumber { get; set; }
         public string? ShippingSpeed { get; set; }
         public DateTime? CreatedDate { get; set;  }
+        public Boolean? isConfirmed { get; set; }
         
     }
 }

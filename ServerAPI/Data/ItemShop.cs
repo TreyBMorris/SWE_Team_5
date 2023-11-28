@@ -9,7 +9,7 @@ namespace ServerAPI.Data
 		[JsonPropertyName("_id")]
 		public string? ID { get; set; }
 		[JsonPropertyName("price")]
-		public double? Price { get; set; }
+		public double Price { get; set; }
         [JsonPropertyName("description")]
 		public string? Description { get; set; }
         [JsonPropertyName("image")]

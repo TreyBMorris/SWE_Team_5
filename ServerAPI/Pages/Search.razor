@@ -28,12 +28,12 @@ else
     {
 
         if (record.Name.Contains(OurPathParam, StringComparison.OrdinalIgnoreCase))
-        {
+        {      
             <h4 class="name">@record.Name</h4>
             <br />
             <a href="/Item/@record.ID"><img src="@record.Image" alt="Product" class="product" width="125" height="125" /></a>
-            <p class="price">$@record.Price</p>
             <br />
+            <hr />
         }
         <br />
     }

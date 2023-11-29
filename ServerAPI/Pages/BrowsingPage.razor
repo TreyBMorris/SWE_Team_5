@@ -9,6 +9,10 @@
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
 
+<EditForm Model=@userSearch OnSubmit = "@doSearch">
+    <MudTextField @bind-Value="theSearch" Variant="Variant.Text"></MudTextField>
+    <input type="submit" value="Search" class="btn btn-primary" />
+</EditForm>
 
 <h3>Items for Sale</h3>
 <body>
@@ -82,11 +86,13 @@
 </body>
 
 @code {
+    Search userSearch = new Search();
+    private string? theSearch;
 
-
-
-
-
+    void doSearch()
+    {
+        NavManager.NavigateTo($"/search/{theSearch}");
+    }
 
 
 }

@@ -11,9 +11,6 @@ hr {
     border-top: 1px solid red;
 }
 input {
-    float: right;
+    
 }
 
-submit {
-    float: right;
-}

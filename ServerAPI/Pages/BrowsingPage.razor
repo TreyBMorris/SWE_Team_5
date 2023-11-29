@@ -9,12 +9,26 @@
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
 
-<EditForm Model=@userSearch OnSubmit = "@doSearch">
-    <MudTextField @bind-Value="theSearch" Variant="Variant.Text"></MudTextField>
-    <input type="submit" value="Search" class="btn btn-primary" />
-</EditForm>
-
 <h3>Items for Sale</h3>
+
+<style>
+    .search-container {
+        display: flex;
+    }
+
+    .search-input {
+        margin-right: 8px; /* Adjust the margin as needed */
+    }
+</style>
+
+
+
+<EditForm Model="@userSearch" OnSubmit="@doSearch">
+    <div class="search-container">
+        <MudTextField @bind-Value="theSearch" Variant="Variant.Text" class="search-input"></MudTextField>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</EditForm>
 <body>
 
 

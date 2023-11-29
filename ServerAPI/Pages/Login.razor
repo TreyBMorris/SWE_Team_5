@@ -28,7 +28,7 @@
 <body>
 <EditForm Model=@registerUser OnSubmit=@FormSubmitted>
 	<MudTextField @bind-Value="userName" Label="Username" Variant="Variant.Text"></MudTextField>
-	<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text"></MudTextField>
+	<MudTextField @bind-Value="password" Label="Password" Variant="Variant.Text" InputType = "InputType.Password"></MudTextField>
 	<br />
 	<input type="submit" value="Submit" class="btn btn-primary" />
 </EditForm>

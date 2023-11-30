@@ -7,3 +7,6 @@
     /*background-attachment: fixed;*/
     background-size: 250px 250px;
 }
+.btn btn-primary {
+    text-align: center;
+}

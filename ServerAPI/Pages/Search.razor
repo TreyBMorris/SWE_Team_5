@@ -27,7 +27,7 @@ else
     @foreach (var record in records)
     {
 
-        if (record.Name.Contains(OurPathParam, StringComparison.OrdinalIgnoreCase))
+        if (record.Name.Contains(OurPathParam, comparisonType: StringComparison.OrdinalIgnoreCase))
         {      
             <h4 class="name">@record.Name</h4>
             <br />

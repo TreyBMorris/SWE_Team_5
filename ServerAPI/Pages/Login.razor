@@ -46,8 +46,8 @@
 	Boolean isRegistered = false;
 	Boolean isAdmin = false;
 	NewUser registerUser = new NewUser();
-
-	private IEnumerable<OurUsers>? items = Array.Empty<OurUsers>();
+	private string? update;
+	private IEnumerable<OurUsers>? users = Array.Empty<OurUsers>();
 	private bool getBranchesError;
 	private bool shouldRender;
 	private bool canDownload = false;
@@ -64,8 +64,9 @@
 
 		if (response.IsSuccessStatusCode)
 		{
+			update = ".";
 			using var responseStream = await response.Content.ReadAsStreamAsync();
-			items = await JsonSerializer.DeserializeAsync
+			users = await JsonSerializer.DeserializeAsync
 				<IEnumerable<OurUsers>>(responseStream);
 		}
 		else
@@ -78,9 +79,9 @@
 
 	void FormSubmitted()
 	{
-		foreach(var item in items)
+		foreach (var item in users)
 		{
-			if(item.Name.Equals(userName) || item.Email.Equals(userName))
+			if(item.name.Equals(userName))
 			{
 
 				if (item.Password.Equals(password))

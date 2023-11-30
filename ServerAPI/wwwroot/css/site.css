@@ -1,7 +1,16 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+@font-face {
+    font-family: "Draconis";
+    src: url('../fonts/Draconis-JRw6B.ttf');
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html, h1, h2 {
+    font-family: 'Draconis', Helvetica, Arial, sans-serif;
 }
 
 h1:focus {

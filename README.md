@@ -14,7 +14,7 @@
   - You will then want to click the green play button that says "https", this will load the application into your commonly used browser.
  
 - Common Issues that may occur
-  - When first loading the application into your browser, certain browsers will originally deny you access to the page. You will need to "accept risk" and proceed which will lead you into the application.
+  - When first loading the application into your browser, certain browsers will originally deny you access to the page. You will need to "accept risk" and proceed which will lead you into the application. I personally suggest using Firefox to run the application, but other browsers should work fine.
   - There will also be some instances where the APIs will be a little slow connecting and receiving data from the databases. This can cause issues like the item pages not instantly loading or the login feature not working quickly. If this happens, you will need to wait and then refresh and this fixes the issue.
  
 - Video Guide for Cloning and Building the Application

@@ -10,7 +10,6 @@
 @inject HttpClient HttpClient
 @inject IHttpClientFactory ClientFactory
 <body>
-
 <h4>@Status</h4>
 @if (isRegistered)
 	{
@@ -43,7 +42,7 @@
 	Boolean isRegistered = false;
 	NewUser registerUser = new NewUser();
 	List<string> currentNames = new List<string>();
-
+	private string? update;
 
 	private IEnumerable<NewUser>? items = Array.Empty<NewUser>();
 	private bool getBranchesError;
@@ -55,7 +54,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		var request = new HttpRequestMessage(HttpMethod.Get,"https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
-
+		update = "working";
 		var client = ClientFactory.CreateClient();
 
 		var response = await client.SendAsync(request);
@@ -65,6 +64,7 @@
 			using var responseStream = await response.Content.ReadAsStreamAsync();
 			items = await JsonSerializer.DeserializeAsync
 				<IEnumerable<NewUser>>(responseStream);
+			update = "done";
 		}
 		else
 		{

@@ -56,8 +56,7 @@
 	//GET Method Call, this is to get the current users in the database.
 	protected override async Task OnInitializedAsync()
 	{
-		var request = new HttpRequestMessage(HttpMethod.Get, "https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg=="); // DO NOT CHANGE
-
+		var request = new HttpRequestMessage(HttpMethod.Get, ""); 
 		var client = ClientFactory.CreateClient();
 
 		var response = await client.SendAsync(request);

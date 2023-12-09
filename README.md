@@ -1,7 +1,8 @@
 # Wizardly Warehouse - SWE Team 5
 
 ## UPDATE 12-9-23: Database and API links have been removed for security issues. Blazor site will still run, but for security reasons the database and API links have been removed. 
-<br>
+<br />
+
 ## Welcome to Wizardly Warehouse! Our online platform has all the latest and greatest goods for your Dungeons and Dragon's items. Our top end items are sure to give you a boost for your character in your next DnD game. We offer only high end products, that produce real results.
 
 ### Environment Requirements: 

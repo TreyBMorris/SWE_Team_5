@@ -80,7 +80,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "");
 
         var client = ClientFactory.CreateClient();
 
@@ -105,7 +105,7 @@ else
         
         this.Show = false;
         updateCart.InCart = false;
-        string url = ($"https://items.azurewebsites.net/api/item/{deleteID}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        string url = ("");
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(updateCart);

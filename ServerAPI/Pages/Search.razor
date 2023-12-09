@@ -56,7 +56,7 @@ else
     // GET Datbase Call
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "");
 
         var client = ClientFactory.CreateClient();
 

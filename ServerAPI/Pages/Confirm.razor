@@ -71,7 +71,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "");
 
         var client = ClientFactory.CreateClient();
 
@@ -139,7 +139,7 @@ else
     {
         saleUpdate.Price = orderTotalRounded;
         saleUpdate.isConfirmed = true;
-        string url = ($"https://store-sales.azurewebsites.net/api/item/{recentID}?code=wJiM0DNe5MB2faNZU5UjzeoJFgtIPJ6XkjuS1aS-1wPNAzFusUFvbw==");
+        string url = ("");
     
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
@@ -154,7 +154,7 @@ else
 
     public async Task GetRecentID()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://store-sales.azurewebsites.net/api/get-list?code=4ZjCTRtAtKJX8ylQvsvBOsp8mJaMa2HnCpG1h0CiFDGAAzFuvqHXQg==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "");
         var client = ClientFactory.CreateClient();
 
         var response = await client.SendAsync(request);
@@ -177,7 +177,7 @@ else
     {
         saleUpdate.Price = orderTotalRounded;
         saleUpdate.isConfirmed = true;
-        string url = ($"https://items.azurewebsites.net/api/item/{PathParam}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        string url = ("");
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(saleUpdate);
@@ -189,7 +189,7 @@ else
     public async Task RemoveFromCart()
     {
         updateCart.InCart = false;
-        string url = ($"https://items.azurewebsites.net/api/item/{PathParam}?code=iDNLvztCxZVCakZbRtPxdHoWGSsOX7M0BH9pvsb4M85yAzFuWUf6vQ==");
+        string url = ("");
         var request = new HttpRequestMessage(HttpMethod.Put, url);
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(updateCart);

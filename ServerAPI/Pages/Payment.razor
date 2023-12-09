@@ -101,7 +101,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://items.azurewebsites.net/api/get-list?code=eZUuYqrLmiz3EiehlyiBTSABzdwqI0CpcAdfx5yTrnM4AzFut6EZ-w==");
+        var request = new HttpRequestMessage(HttpMethod.Get, "");
 
 
         var client = ClientFactory.CreateClient();
@@ -179,7 +179,7 @@ else
 
     public async Task PostToDatbase()
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://store-sales.azurewebsites.net/api/createnewitem?code=3Z5uU1SuyyjiAlhLLj45-HrFXkctpEC4mZdow1PKhWjAAzFuJova8g==");
+        var request = new HttpRequestMessage(HttpMethod.Post, "");
         var client = ClientFactory.CreateClient();
         var json = JsonSerializer.Serialize(newOrder);
         var content = new StringContent(json, Encoding.UTF8, "application/json");

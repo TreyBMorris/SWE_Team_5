@@ -53,7 +53,7 @@
 	//GET Method Call, this is to get the current users in the database.
 	protected override async Task OnInitializedAsync()
 	{
-		var request = new HttpRequestMessage(HttpMethod.Get,"https://my-api-test.azurewebsites.net/api/get-list?code=_LjDB4O81c3uwiPBV04TpFBvr3EZt0PPUJn-cawlDjxEAzFulyXHwg==");
+		var request = new HttpRequestMessage(HttpMethod.Get,"");
 		update = "working";
 		var client = ClientFactory.CreateClient();
 
@@ -104,7 +104,7 @@
 	//POST method to post the user information to the database
 	public async Task PostToDatbase()
 	{
-		var request = new HttpRequestMessage(HttpMethod.Post,"https://my-api-test.azurewebsites.net/api/createnewitem?code=Ndv8ZTDuwxUTPBWlDlHuiSSyhxJ9RyxrdwZGCSwbhuCEAzFu1nbrZA==");
+		var request = new HttpRequestMessage(HttpMethod.Post,"");
 		var client = ClientFactory.CreateClient();
 
 		var json = JsonSerializer.Serialize(registerUser);

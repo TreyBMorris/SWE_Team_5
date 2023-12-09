@@ -4,3 +4,5 @@ ID,Buyer,Items,Email,Address,PhoneNumber,ShippingSpeed,OrderDate,isConfirmed,Pri
 3be0062f-a3a1-472e-9bf4-04e354bbeebd,Trey M,"Amulet of Buoyancy, Amulet of the Planes, ",trey@gmail.com,"123 Kennesaw Street Kennesaw, Georgia 30101",7705618739,ground,11-28-2023,True,109.28
 7536d79d-86be-49a2-883e-0f16a6c22667,Trey,"Amulet of Buoyancy, ",trey@gmail.com,1234 Kenneaw Street,911,three-day,11-28-2023,True,69.2
 68e21ba8-17b4-4f66-be43-9290ec70f641,Trey Morris,"Immovable Rod, ",trey@gmail.com,"123 Kennesaw Street Kennesaw, Georgia 30000",7704014987,three-day,11-28-2023,True,60.91
+012076b2-94f3-42a6-aa6a-0b3ae5d24531,Ian Ford,"Amulet of Buoyancy, Ring Of Fire Resistance, ",ian@gmail.com,"123 Kennesaw Street Kenneaw, Georgia 30152",6784637890,overnight,11-29-2023,True,144.79
+f675b764-4ee6-42c8-99ee-3f04ca8e908f,dhgf,"Amulet of Buoyancy, Amulet of the Planes, ",SFDG,d,sF,overnight,11-29-2023,False,103.09
